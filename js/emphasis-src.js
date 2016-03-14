@@ -99,7 +99,9 @@
 			document.getElementsByTagName("head")[0].appendChild(st);
 		},
 
-		readHash: function() {
+		readHash: function(hashOverride) {
+            var hash = hashOverride || location.hash;
+
 		/*	Read and interpret the URL hash */
 			var lh = decodeURI(location.hash),
 				p = false,
