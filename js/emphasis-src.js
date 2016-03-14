@@ -46,7 +46,12 @@
 
 	return {
 		init: function(opts) {
-            opts = opts || {useKeys: true};
+            opts = opts || {};
+
+            if(!opts.hasOwnProperty('useKeys')) {
+                opts.useKeys = true;
+            }
+
 			this.config(opts);
 
 			this.pl = false; // Paragraph List
@@ -65,8 +70,13 @@
 		},
 
 		config: function(opts) {
-            var selector = opts.paraSelectors || '#article-content p';
-			this.paraSelctors	   = document.querySelectorAll(selector);
+            if(opts.els) {
+                this.paraSelctors = opts.els;
+            }
+            else {
+                var selector = opts.paraSelectors || '#article-content p';
+                this.paraSelctors = document.querySelectorAll(selector);
+            }
 
     		//	Class names
 			this.classReady		   = opts.classReady || "emReady";
