@@ -45,8 +45,10 @@
 }(this, function () {
 
 	return {
-		init: function() {
-			this.config();
+		init: function(opts) {
+            opts = opts || {useKeys: true};
+			this.config(opts);
+
 			this.pl = false; // Paragraph List
 			this.p	= false; // Paragraph Anchor
 			this.h	= false; // Highlighted paragraphs
@@ -57,24 +59,22 @@
 			this.addCSS();
 			this.readHash();
 
-			document.addEventListener("keydown", this.keydown);
+            if(opts.useKeys) {
+    			document.addEventListener("keydown", this.keydown);
+            }
 		},
 
-		config: function() {
-		/*
-			Eligible Paragraphs
-			This uses some common markup for plain and simple paragraphs - those that are not empty, no classes.
-			We use PrototypeJS for its css selector awesomeness, but your needs might be simpler (getElementsByTagName('p') etc.)
-		*/
-			this.paraSelctors	   = document.querySelectorAll('#article-content p');
+		config: function(opts) {
+            var selector = opts.paraSelectors || '#article-content p';
+			this.paraSelctors	   = document.querySelectorAll(selector);
 
-		//	Class names
-			this.classReady		   = "emReady";
-			this.classActive	   = "emActive";
-			this.classHighlight	   = "emHighlight";
-			this.classInfo		   = "emInfo";
-			this.classAnchor	   = "emAnchor";
-			this.classActiveAnchor = "emActiveAnchor";
+    		//	Class names
+			this.classReady		   = opts.classReady || "emReady";
+			this.classActive	   = opts.classActive || "emActive";
+			this.classHighlight	   = opts.classHighlight || "emHighlight";
+			this.classInfo		   = opts.classInfo || "emInfo";
+			this.classAnchor	   = opts.classAnchor || "emAnchor";
+			this.classActiveAnchor = opts.classActiveAnchor || "emActiveAnchor";
 		},
 
 		addCSS: function() {
