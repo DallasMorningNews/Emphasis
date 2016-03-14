@@ -37,10 +37,6 @@
         module.exports = factory();
     } else {
         root.Emphasis = factory();
-
-		document.addEventListener("DOMContentLoaded", function(){
-			root.Emphasis.init();
-		}, true);
   }
 }(this, function () {
 
