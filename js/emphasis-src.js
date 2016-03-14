@@ -1,4 +1,5 @@
 /*	--------------------------------------------------
+	@license
 
 	Emphasis
 	by Michael Donohoe (@donohoe)
@@ -15,10 +16,10 @@
 	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 	copies of the Software, and to permit persons to whom the Software is
 	furnished to do so, subject to the following conditions:
-	
+
 	The above copyright notice and this permission notice shall be included in
 	all copies or substantial portions of the Software.
-	
+
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,9 +30,21 @@
 
 	-------------------------------------------------- */
 
-(function() {
-	
-	var Emphasis = {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = factory();
+    } else {
+        root.Emphasis = factory();
+
+		document.addEventListener("DOMContentLoaded", function(){
+			root.Emphasis.init();
+		}, true);
+  }
+}(this, function () {
+
+	return {
 		init: function() {
 			this.config();
 			this.pl = false; // Paragraph List
@@ -44,7 +57,7 @@
 			this.addCSS();
 			this.readHash();
 
-			document.addEventListener ("keydown", this.keydown);
+			document.addEventListener("keydown", this.keydown);
 		},
 
 		config: function() {
@@ -151,7 +164,7 @@
 		/*	Look for double-shift keypress */
 			var self = Emphasis,
 				kc = e.keyCode;
-		
+
 			self.kh	 = self.kh + kc + '|';
 			if (self.kh.indexOf('|16|16|')>-1) {
 				self.vu = (self.vu) ? false : true;
@@ -219,10 +232,10 @@
 			}
 
 			if (self.hasClass(pr, self.classReady)) {
-		
+
 				if (!self.hasClass(pr, self.classActive) && (sp && !self.hasClass(sp, self.classHighlight))) {
 
-				//	If not current Active p tag, clear any others out there and make this the Active p tag	
+				//	If not current Active p tag, clear any others out there and make this the Active p tag
 					self.removeAllWithClass(self.classActive);
 					self.addClass(pr, self.classActive);
 
@@ -384,7 +397,7 @@
 		goAnchor: function(p) {
 		/*	Move view to top of a given Paragraph */
 			if (!p) {
-				return; 
+				return;
 			}
 
 			var pg = (isNaN(p)) ? this.findKey(p)['elm'] : (this.paragraphList().list[p-1] || false);
@@ -448,7 +461,7 @@
 				list = (topList+","+geoList+","+numList+","+extList).split(","),
 				len  = list.length,
 				i, lines;
-		
+
 			for (i=0;i<len;i++) {
 				html = html.replace(new RegExp((" "+list[i]+"\\."), "g"), (" "+list[i]+d));
 			}
@@ -470,7 +483,7 @@
 		},
 
 		ordinal: function(n) {
-			var sfx = ["th","st","nd","rd"], 
+			var sfx = ["th","st","nd","rd"],
 				val = n%100;
 			return n + (sfx[(val-20)%10] || sfx[val] || sfx[0]);
 		},
@@ -542,11 +555,11 @@
 			}
 			return true;
 		},
-		
+
 		removeFromDOM: function(el) {
 			el.parentNode.removeChild(el);
 		},
-		
+
 		toggleClass: function(el, klass) {
 			if (this.hasClass(el, klass)) {
 				this.removeClass(el, klass);
@@ -556,8 +569,4 @@
 		}
 	};
 
-	document.addEventListener("DOMContentLoaded", function(){
-		Emphasis.init();
-	}, true);
-
-})();
+}));
