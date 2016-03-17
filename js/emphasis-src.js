@@ -103,7 +103,7 @@
             var hash = hashOverride || location.hash;
 
 		/*	Read and interpret the URL hash */
-			var lh = decodeURI(location.hash),
+			var lh = decodeURI(hash),
 				p = false,
 				h = [],
 				s = {},
